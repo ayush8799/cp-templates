@@ -1,0 +1,98 @@
+#include <bits/stdc++.h>
+
+#include<ext/pb_ds/assoc_container.hpp>
+#include<ext/pb_ds/tree_policy.hpp>
+
+using namespace std;
+using namespace __gnu_pbds;
+
+template <typename T> using PBDS = tree<T, null_type, less<T>, rb_tree_tag, tree_order_statistics_node_update>;
+
+#define F_OR(i, a, b, s) for (int i=(a); (s)>0?i<(b):i>(b); i+=(s))
+#define F_OR1(e) F_OR(i, 0, e, 1)
+#define F_OR2(i, e) F_OR(i, 0, e, 1)
+#define F_OR3(i, b, e) F_OR(i, b, e, 1)
+#define F_OR4(i, b, e, s) F_OR(i, b, e, s)
+#define GET5(a, b, c, d, e, ...) e
+#define F_ORC(...) GET5(__VA_ARGS__, F_OR4, F_OR3, F_OR2, F_OR1)
+#define FOR(...) F_ORC(__VA_ARGS__)(__VA_ARGS__)
+
+#define vi vector<int>
+#define vvi vector<vector<int>>
+#define vpii vector<pair<int, int>>
+#define pb push_back
+#define ff first
+#define ss second
+#define pii pair<int, int>
+#define int long long int
+#define el "\n"
+#define inf INT_MAX
+#define _inf INT_MIN
+#define whilet int t;cin>>t;while(t--)
+#define prDouble(x) cout<<fixed<<setprecision(10)<<x
+#define all(x) (x).begin(), (x).end()
+#define deb(x) cout<< "(" << #x << ") : ["<< x << "]"<< el ;
+const int dx[4] = { -1, 0, 1, 0}, dy[4] = {0, 1, 0, -1};
+// const int dx[8] = { -1, -1, 0, 1, 1, 1, 0, -1}, dy[8] = {0, 1, 1, 1, 0, -1, -1, -1};
+
+const int N = 2e5 + 7;
+const int mod = 1e9 + 7;
+
+void solve() {
+	int n, k, x, y;
+	cin >> n >> k >> x >> y;
+	if (x == y) cout << n << " " << n << el;
+	else {
+		bool swapped = false;
+		if (x < y) {
+			int tmp = x; x = y; y = tmp;
+			swapped = true;
+		}
+
+		vpii v(4);
+		int slope1 = x - y;
+
+		v[0].ff = n;
+		v[0].ss = n - slope1;
+
+		int slope2 = v[0].ff + v[0].ss;
+
+		// ff + ss = slope2
+		v[1].ss = n;
+		v[1].ff = slope2 - n;
+
+		int slope3 = v[1].ff - v[1].ss;
+
+		// ff - ss = slope3
+		v[2].ff = 0;
+		v[2].ss = -1 * slope3;
+
+		int slope4 = v[2].ff + v[2].ss;
+
+		// ff + ss = slope4
+		v[3].ss = 0;
+		v[3].ff = slope4;
+
+		int index = (k - 1) % 4;
+		if (swapped) index = index <= 1 ? abs(1 - index) : index == 2 ? 3 : 2;
+		// deb(index)
+		// deb(k)
+		// deb(swapped)
+		cout << v[index].ff << " " << v[index].ss << el;
+	}
+}
+
+void init() {
+	ios_base:: sync_with_stdio(false); cin.tie(NULL); cout.tie(NULL);
+#ifndef ONLINE_JUDGE
+	freopen("../input.txt", "r", stdin);
+	freopen("../output.txt", "w", stdout);
+#endif
+}
+
+int32_t main()
+{
+	init();
+	whilet solve();
+	// solve();
+}

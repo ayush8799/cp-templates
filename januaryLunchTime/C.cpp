@@ -1,0 +1,86 @@
+#include <bits/stdc++.h>
+
+#include<ext/pb_ds/assoc_container.hpp>
+#include<ext/pb_ds/tree_policy.hpp>
+
+using namespace std;
+using namespace __gnu_pbds;
+
+template <typename T> using PBDS = tree<T, null_type, less<T>, rb_tree_tag, tree_order_statistics_node_update>;
+
+#define F_OR(i, a, b, s) for (int i=(a); (s)>0?i<(b):i>(b); i+=(s))
+#define F_OR1(e) F_OR(i, 0, e, 1)
+#define F_OR2(i, e) F_OR(i, 0, e, 1)
+#define F_OR3(i, b, e) F_OR(i, b, e, 1)
+#define F_OR4(i, b, e, s) F_OR(i, b, e, s)
+#define GET5(a, b, c, d, e, ...) e
+#define F_ORC(...) GET5(__VA_ARGS__, F_OR4, F_OR3, F_OR2, F_OR1)
+#define FOR(...) F_ORC(__VA_ARGS__)(__VA_ARGS__)
+
+#define vi vector<int>
+#define vvi vector<vector<int>>
+#define vpii vector<pair<int, int>>
+#define pb push_back
+#define ff first
+#define ss second
+#define pii pair<int, int>
+#define int long long int
+#define el "\n"
+#define inf INT_MAX
+#define _inf INT_MIN
+#define whilet int t;cin>>t;while(t--)
+#define prDouble(x) cout<<fixed<<setprecision(10)<<x
+#define all(x) (x).begin(), (x).end()
+#define deb(x) cout<< "(" << #x << ") : ["<< x << "]"<< el ;
+const int N = 2e5 + 7;
+const int mod = 1e9 + 7;
+// const int dx[4] = { -1, 0, 1, 0}, dy[4] = {0, 1, 0, -1};
+// const int dx[8] = { -1, -1, 0, 1, 1, 1, 0, -1}, dy[8] = {0, 1, 1, 1, 0, -1, -1, -1};
+
+int h(int value, vi& dp, int& n) {
+	int l = 0; int h = n;
+	while (l < h) {
+		int mid = l + ((h - l) / 2);
+		// cout << "[ " << l << " " << h << " " << mid << " " << dp[mid] << " " << value << " ]" << el;
+		if (dp[mid] < value) l = mid + 1;
+		else h = mid;
+	}
+	return h;
+}
+
+void solve() {
+	int n; cin >> n;
+	string s; cin >> s;
+	vi v(n);
+	FOR(n) v[i] = s[i] - '0';
+	int pos = 1, neg = -1e5;
+	FOR(n) v[i] = v[i] == 1 ? pos++ : neg++;
+	// FOR(n) cout << "[" << v[i] << "], ";
+	// cout << el;
+	vi dp(N, 1e10);
+
+	dp[0] = -1e10;
+
+	for (int i = 0; i < n; i++) {
+		int index = h(v[i], dp, n);
+		dp[index] = min(dp[index], v[i]);
+	}
+	int r = 1;
+	for (int i = 0; i <= n; i++) if (dp[i] != 1e10) r = max(r, i);
+	cout << (n - r) << el;
+}
+
+void init() {
+	ios_base:: sync_with_stdio(false); cin.tie(NULL); cout.tie(NULL);
+#ifndef ONLINE_JUDGE
+	freopen("../input.txt", "r", stdin);
+	freopen("../output.txt", "w", stdout);
+#endif
+}
+
+int32_t main()
+{
+	init();
+	whilet solve();
+	// solve();
+}
